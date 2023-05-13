@@ -1,11 +1,11 @@
 package com.tests;
 import com.api.APIClient;
+import com.model.CreateObjectRequest;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.apache.http.HttpStatus;
-import org.testng.annotations.Test;
 import static org.testng.Assert.*;
 import org.json.JSONArray;
 
@@ -14,7 +14,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
-import static org.testng.Assert.*;
+
 
 public class TestEndpoints {
 
@@ -64,4 +64,45 @@ public class TestEndpoints {
         assertEquals(googlePixel6Pro.getString("name"), assertions.getProperty("googlePixel6Pro.name"));
 
     }
+
+    @Test
+    public void testPostObjectEndpoint() throws IOException, JSONException{
+
+        // create request body
+        CreateObjectRequest requestBody = new CreateObjectRequest();
+        requestBody.setName("Apple MacBook Pro 14");
+        requestBody.getData().setYear(2019);
+        requestBody.getData().setPrice(1899.99);
+        requestBody.getData().setCpuModel("Intel Core i9");
+        requestBody.getData().setHardDiskSize("1 TB");
+
+        //perform the POST request
+
+        String response = client.post("objects", requestBody);
+        int statusCode = client.getLastStatusCode();
+
+        // Perform assertions on the response and status code
+        assertEquals(statusCode, HttpStatus.SC_OK);
+
+        // Assert not null the response
+        assertNotNull(response);
+
+        // Convert the response to a JSON object
+        JSONObject jsonResponse = new JSONObject(response);
+
+        // Assert the properties of the response object
+        assertTrue(jsonResponse.has("id"));
+        assertEquals(jsonResponse.getString("name"), assertions.getProperty("create.name"));
+
+        // Extract the ID from the response
+        String objectId = jsonResponse.getString("id");
+        assertNotNull(objectId);
+        System.out.println("Created object ID: " + objectId);
+
+        System.out.println(response);
+
+    }
+
+
+
 }
