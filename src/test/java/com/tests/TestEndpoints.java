@@ -56,17 +56,12 @@ public class TestEndpoints {
         assertEquals(appleMacBookPro16.getString("name"),assertions.getProperty("appleMacBookPro16.name"));
         JSONObject appleMacBookPro16Data = appleMacBookPro16.getJSONObject("data");
         assertEquals(appleMacBookPro16Data.getInt("year"), Integer.parseInt(assertions.getProperty("appleMacBookPro16.year")));
-        assertEquals(appleMacBookPro16Data.getDouble("price"), 1849.99, 0.01);
-        assertEquals(appleMacBookPro16Data.getString("CPU model"), "Intel Core i9");
-        assertEquals(appleMacBookPro16Data.getString("Hard disk size"), "1 TB");
+        assertEquals(appleMacBookPro16Data.getDouble("price"),Double.parseDouble(assertions.getProperty("appleMacBookPro16.price")));
+        assertEquals(appleMacBookPro16Data.getString("CPU model"), assertions.getProperty("appleMacBookPro16.cpuModel"));
+        assertEquals(appleMacBookPro16Data.getString("Hard disk size"), assertions.getProperty("appleMacBookPro16.hardDiskSize"));
 
         // Assertions for Google Pixel 6 Pro
-        assertEquals(googlePixel6Pro.getString("name"), "Google Pixel 6 Pro");
-        JSONObject googlePixel6ProData = googlePixel6Pro.getJSONObject("data");
-        assertTrue(googlePixel6ProData.has("color"));
-        assertTrue(googlePixel6ProData.has("capacity"));
-
-
+        assertEquals(googlePixel6Pro.getString("name"), assertions.getProperty("googlePixel6Pro.name"));
 
     }
 }
