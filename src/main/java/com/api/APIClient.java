@@ -83,15 +83,14 @@ public class APIClient {
         return responseString;
     }
 
-    public void delete(String endpoint) throws IOException {
-        String url = base_url + "/" + endpoint;
+    public void delete(String endpoint, String id) throws IOException {
+        String url = base_url + "/" + endpoint + "/" + id;
         HttpDelete request = new HttpDelete(url);
 
         HttpResponse response = client.execute(request);
         response.getEntity().getContent().close();
 
         lastStatusCode = response.getStatusLine().getStatusCode();
-        response.getEntity().getContent().close();
     }
 
     public int getLastStatusCode() {
