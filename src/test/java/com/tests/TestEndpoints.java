@@ -99,7 +99,10 @@ public class TestEndpoints {
         assertNotNull(objectId);
         System.out.println("Created object ID: " + objectId);
 
-        System.out.println(response);
+    /*
+    if you need to validate manually the POST request please uncomment this line
+     */
+//        System.out.println(response);
 
     }
 
@@ -134,11 +137,61 @@ public class TestEndpoints {
         assertEquals(statusCode, HttpStatus.SC_OK);
 
         JSONObject updateResponseJson = new JSONObject(updateResponse);
-        System.out.println(updateResponseJson);
+
+        /*
+        If need to validate the update request please uncomment this line
+         */
+//        System.out.println(updateResponseJson);
+
         String updatedObjectId = updateResponseJson.getString("id");
 
         // Assert the updated object ID matches the original object ID
         assertEquals(updatedObjectId, objectId);
+    }
+
+    @Test
+    public void testDeleteObjectEndpoint() throws IOException, JSONException{
+
+        // Create a new object
+        CreateObjectRequest requestBody = new CreateObjectRequest();
+        requestBody.setName("Samsung Galaxy S22");
+        requestBody.getData().setYear(2023);
+        requestBody.getData().setPrice(1000.00);
+        requestBody.getData().setCpuModel("Snapdragon chipset");
+        requestBody.getData().setHardDiskSize("512 GB");
+        String response = client.post("objects", requestBody);
+
+        // Convert the response to a JSON object
+        JSONObject jsonResponse = new JSONObject(response);
+
+        // Extract the ID from the response
+        String objectId = jsonResponse.getString("id");
+
+        // Delete the Object
+        client.delete("objects",objectId);
+
+        int statusCode = client.getLastStatusCode();
+
+        // Perform assertions on the status code
+        assertEquals(statusCode, HttpStatus.SC_OK); // when success the delete operation, getting the status code as 200 not 204
+
+        // Send a GET request to check if the object exists
+        String getResponse = client.get("objects");
+        JSONArray jsonArray = new JSONArray(getResponse);
+
+        // Assert that the deleted object is no longer present in the response
+        boolean isObjectPresent = false;
+        for (int i = 0; i < jsonArray.length(); i++) {
+            JSONObject jsonObject = jsonArray.getJSONObject(i);
+            String id = jsonObject.getString("id");
+            if (id.equals(objectId)) {
+                isObjectPresent = true;
+                break;
+            }
+        }
+
+        assertFalse(isObjectPresent);
+
     }
 
 
