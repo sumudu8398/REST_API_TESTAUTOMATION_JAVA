@@ -103,6 +103,43 @@ public class TestEndpoints {
 
     }
 
+    @Test
+    public void testPutObjectsEndpoint() throws IOException, JSONException {
+        // Create a new object
+        CreateObjectRequest requestBody = new CreateObjectRequest();
+        requestBody.setName("Apple MacBook Pro 14");
+        requestBody.getData().setYear(2019);
+        requestBody.getData().setPrice(1899.99);
+        requestBody.getData().setCpuModel("Intel Core i9");
+        requestBody.getData().setHardDiskSize("1 TB");
+        String response = client.post("objects", requestBody);
+
+        // Convert the response to a JSON object
+        JSONObject jsonResponse = new JSONObject(response);
+
+        // Extract the ID from the response
+        String objectId = jsonResponse.getString("id");
+
+        // Update the request
+        CreateObjectRequest updateRequestBody = new CreateObjectRequest();
+        updateRequestBody.setName(assertions.getProperty("update.name"));
+        updateRequestBody.getData().setCpuModel(assertions.getProperty("update.cpuModel"));
+        updateRequestBody.getData().setYear(Integer.parseInt(assertions.getProperty("update.year")));
+        updateRequestBody.getData().setPrice(Double.parseDouble(assertions.getProperty("update.price")));
+
+        String updateResponse = client.put("objects",updateRequestBody,objectId);
+        int statusCode = client.getLastStatusCode();
+
+        // Perform assertions on the response and status code
+        assertEquals(statusCode, HttpStatus.SC_OK);
+
+        JSONObject updateResponseJson = new JSONObject(updateResponse);
+        System.out.println(updateResponseJson);
+        String updatedObjectId = updateResponseJson.getString("id");
+
+        // Assert the updated object ID matches the original object ID
+        assertEquals(updatedObjectId, objectId);
+    }
 
 
 }

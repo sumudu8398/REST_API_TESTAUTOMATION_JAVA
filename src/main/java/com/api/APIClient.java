@@ -1,5 +1,6 @@
 package com.api;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.model.CreateObjectRequest;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -62,11 +63,14 @@ public class APIClient {
 
     }
 
-    public String put(String endpoint, String requestBody) throws IOException {
-        String url = base_url + "/" + endpoint;
+    public String put(String endpoint, CreateObjectRequest requestBody, String id) throws IOException {
+        String url = base_url + "/" + endpoint + "/" +id;
         HttpPut request = new HttpPut(url);
 
-        StringEntity requestEntity = new StringEntity(requestBody);
+        ObjectMapper objectMapper = new ObjectMapper();
+        String requestBodyString = objectMapper.writeValueAsString(requestBody);
+
+        StringEntity requestEntity = new StringEntity(requestBodyString);
         request.setEntity(requestEntity);
         request.setHeader("Content-type", "application/json");
 
