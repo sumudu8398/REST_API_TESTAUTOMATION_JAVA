@@ -33,7 +33,7 @@ public class TestEndpoints {
         file.close();
     }
 
-    @Test
+    @Test(testName = "Validating GET Request Endpoint")
     public void testGetObjectsEndpoint() throws IOException, JSONException {
         String response = client.get("objects");
         int statusCode = client.getLastStatusCode();
@@ -68,7 +68,7 @@ public class TestEndpoints {
 
     }
 
-    @Test
+    @Test(testName = "Validating POST Request Endpoint")
     public void testPostObjectEndpoint() throws IOException, JSONException{
 
         // create request body
@@ -109,7 +109,7 @@ public class TestEndpoints {
 
     }
 
-    @Test
+    @Test(testName = "Validating PUT Request Endpoint")
     public void testPutObjectsEndpoint() throws IOException, JSONException {
         // Create a new object
         CreateObjectRequest requestBody = new CreateObjectRequest();
@@ -152,7 +152,7 @@ public class TestEndpoints {
         assertEquals(updatedObjectId, objectId);
     }
 
-    @Test
+    @Test(testName = "Validating DELETE Request Endpoint")
     public void testDeleteObjectEndpoint() throws IOException, JSONException{
 
         // Create a new object
