@@ -14,7 +14,10 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
-
+/**
+ * @author Sumudu on 13/05/2023
+ * @project REST_API_TESTAUTOMATION_JAVA
+ */
 
 public class TestEndpoints {
 

@@ -1,5 +1,8 @@
 package com.model;
-
+/**
+ * @author Sumudu on 13/05/2023
+ * @project REST_API_TESTAUTOMATION_JAVA
+ */
 public class Data {
     private int year;
     private double price;
