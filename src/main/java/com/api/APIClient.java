@@ -12,6 +12,11 @@ import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
 
+/**
+ * @author Sumudu on 13/05/2023
+ * @project REST_API_TESTAUTOMATION_JAVA
+ */
+
 public class APIClient {
     private final String base_url;
     private final HttpClient client;
